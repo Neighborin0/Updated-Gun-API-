@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace FrostAndGunfireItems
+namespace BasicGun
 {
     
     internal class BasicGunProjectile : MonoBehaviour
