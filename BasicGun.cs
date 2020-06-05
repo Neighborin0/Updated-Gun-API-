@@ -45,31 +45,25 @@ namespace BasicGun
             // Here we just set the quality of the gun and the "EncounterGuid", which is used by Gungeon to identify the gun.
             gun.quality = PickupObject.ItemQuality.D;
             gun.encounterTrackable.EncounterGuid = "change this for different guns, so the game doesn't think they're the same gun";
-            ETGMod.Databases.Items.Add(gun, null, "ANY");
-       
-        }
-
-      
-        // This determines what the projectile does when it fires.
-        public override void PostProcessProjectile(Projectile projectile)
-        {
-            PlayerController playerController = this.gun.CurrentOwner as PlayerController;
-            if (playerController == null)
-            this.gun.ammo = this.gun.GetBaseMaxAmmo();
-            //projectile.baseData allows you to modify the base properties of your projectile module.
+            //This block of code helps clone our projectile. Basically it makes it so things like Shadow Clone and Hip Holster keep the stats/sprite of your custom gun's projectiles.
+            Projectile projectile = UnityEngine.Object.Instantiate<Projectile>(gun.DefaultModule.projectiles[0]);
+			projectile.gameObject.SetActive(false);
+			FakePrefab.MarkAsFakePrefab(projectile.gameObject);
+			UnityEngine.Object.DontDestroyOnLoad(projectile);
+			gun.DefaultModule.projectiles[0] = projectile;
+             //projectile.baseData allows you to modify the base properties of your projectile module.
             //In our case, our gun uses modified projectiles from the ak-47.
             //Setting static values for a custom gun's projectile stats prevents them from scaling with player stats and bullet modifiers (damage, shotspeed, knockback)
             //You have to multiply the value of the original projectile you're using instead so they scale accordingly. For example if the projectile you're using as a base has 10 damage and you want it to be 6 you use this
             //In our case, our projectile has a base damage of 5.5, so we multiply it by 1.1 so it does 10% more damage from the ak-47.
             projectile.baseData.damage *= 1.10f;
             projectile.baseData.speed *= 1f;
-            this.gun.DefaultModule.ammoCost = 1;
-            base.PostProcessProjectile(projectile);
-            //This is for when you want to change the sprite of your projectile and want to do other magic fancy stuff. But for now let's just change the sprite. 
-            //Refer to BasicGunProjectile.cs for changing the sprite.
-            
-            projectile.gameObject.AddComponent<BasicGunProjectile>();
-            
+			projectile.transform.parent = gun.barrelOffset;
+            //This determines what sprite you want your projectile to use. Note this isn't necessary if you don't want to have a custom projectile sprite.
+            //The x and y values determine the size of your custom projectile
+			projectile.SetProjectileSpriteRight("build_projectile", x, y, null, null);
+            ETGMod.Databases.Items.Add(gun, null, "ANY");
+       
         }
 
         public override void OnPostFired(PlayerController player, Gun gun)
@@ -79,7 +73,34 @@ namespace BasicGun
             gun.PreventNormalFireAudio = true;
             AkSoundEngine.PostEvent("Play_WPN_smileyrevolver_shot_01", gameObject);
         }
+        private bool HasReloaded;
+        //This block of code allows us to change the reload sounds.
+       protected void Update()
+		{
+			if (gun.CurrentOwner)
+			{
+			
+				if (gun.PreventNormalFireAudio)
+				{
+					this.gun.PreventNormalFireAudio = true;
+				}
+				if (!gun.IsReloading && !HasReloaded;)
+				{
+					this.HasReloaded = true;
+				}
+			}
+		}
 
+		public override void OnReloadPressed(PlayerController player, Gun gun, bool bSOMETHING)
+		{
+			if (gun.IsReloading && this.HasReloaded)
+			{
+				HasReloaded = false;
+				AkSoundEngine.PostEvent("Stop_WPN_All", base.gameObject);
+				base.OnReloadPressed(player, gun, bSOMETHING);
+				AkSoundEngine.PostEvent("Play_WPN_SAA_reload_01", base.gameObject);
+			}
+		}
 
         //All that's left now is sprite stuff. 
         //Your sprites should be organized, like how you see in the mod folder. 
@@ -88,10 +109,5 @@ namespace BasicGun
         //By default this gun is a one-handed weapon
         //If you need a basic two handed .json. Just use the jpxfrd2.json.
         //And finally, don't forget to add your Gun to your ETGModule class!
-
-        public BasicGun()
-        {
-           
-        }
     }
 }
