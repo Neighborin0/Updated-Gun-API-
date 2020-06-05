@@ -7,12 +7,22 @@ namespace BasicGun
   
     public static class Tools
     {
-        public static tk2dSpriteDefinition CopyDefinitionFrom(this tk2dSpriteDefinition other)
+      public static tk2dSpriteDefinition CopyDefinitionFrom(this tk2dSpriteDefinition other)
         {
-            return new tk2dSpriteDefinition
+            tk2dSpriteDefinition result = new tk2dSpriteDefinition
             {
-                boundsDataCenter = other.boundsDataCenter,
-                boundsDataExtents = other.boundsDataExtents,
+                boundsDataCenter = new Vector3
+                {
+                    x = other.boundsDataCenter.x,
+                    y = other.boundsDataCenter.y,
+                    z = other.boundsDataCenter.z
+                },
+                boundsDataExtents = new Vector3
+                {
+                    x = other.boundsDataExtents.x,
+                    y = other.boundsDataExtents.y,
+                    z = other.boundsDataExtents.z
+                },
                 colliderConvex = other.colliderConvex,
                 colliderSmoothSphereCollisions = other.colliderSmoothSphereCollisions,
                 colliderType = other.colliderType,
@@ -29,20 +39,75 @@ namespace BasicGun
                 name = other.name,
                 normals = other.normals,
                 physicsEngine = other.physicsEngine,
-                position0 = other.position0,
-                position1 = other.position1,
-                position2 = other.position2,
-                position3 = other.position3,
+                position0 = new Vector3
+                {
+                    x = other.position0.x,
+                    y = other.position0.y,
+                    z = other.position0.z
+                },
+                position1 = new Vector3
+                {
+                    x = other.position1.x,
+                    y = other.position1.y,
+                    z = other.position1.z
+                },
+                position2 = new Vector3
+                {
+                    x = other.position2.x,
+                    y = other.position2.y,
+                    z = other.position2.z
+                },
+                position3 = new Vector3
+                {
+                    x = other.position3.x,
+                    y = other.position3.y,
+                    z = other.position3.z
+                },
                 regionH = other.regionH,
                 regionW = other.regionW,
                 regionX = other.regionX,
                 regionY = other.regionY,
                 tangents = other.tangents,
-                texelSize = other.texelSize,
-                untrimmedBoundsDataCenter = other.untrimmedBoundsDataCenter,
-                untrimmedBoundsDataExtents = other.untrimmedBoundsDataExtents,
-                uvs = other.uvs
+                texelSize = new Vector2
+                {
+                    x = other.texelSize.x,
+                    y = other.texelSize.y
+                },
+                untrimmedBoundsDataCenter = new Vector3
+                {
+                    x = other.untrimmedBoundsDataCenter.x,
+                    y = other.untrimmedBoundsDataCenter.y,
+                    z = other.untrimmedBoundsDataCenter.z
+                },
+                untrimmedBoundsDataExtents = new Vector3
+                {
+                    x = other.untrimmedBoundsDataExtents.x,
+                    y = other.untrimmedBoundsDataExtents.y,
+                    z = other.untrimmedBoundsDataExtents.z
+                }
             };
+            List<Vector2> uvs = new List<Vector2>();
+            foreach(Vector2 vector in other.uvs)
+            {
+                uvs.Add(new Vector2
+                {
+                    x = vector.x,
+                    y = vector.y
+                });
+            }
+            result.uvs = uvs.ToArray();
+            List<Vector3> colliderVertices = new List<Vector3>();
+            foreach (Vector3 vector in other.colliderVertices)
+            {
+                colliderVertices.Add(new Vector3
+                {
+                    x = vector.x,
+                    y = vector.y,
+                    z = vector.z
+                });
+            }
+            result.colliderVertices = colliderVertices.ToArray();
+            return result;
         }
 
         public static void SetProjectileSpriteRight(this Projectile proj, string name, int pixelWidth, int pixelHeight, int? overrideColliderPixelWidth = null, int? overrideColliderPixelHeight = null)
