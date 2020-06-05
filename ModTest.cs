@@ -3,7 +3,6 @@ using System.Collections;
 using Gungeon;
 using MonoMod;
 using UnityEngine;
-using ItemAPI;
 using System.Collections.Generic;
 
 namespace BasicGun
@@ -23,9 +22,10 @@ namespace BasicGun
         public override void Start()
         {
             FakePrefabHooks.Init();
-            ItemBuilder.Init();
             BasicGun.Add();
+            Tools.Init();
             ETGModConsole.Log("shit", false);
+           
 
 
 
