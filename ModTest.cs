@@ -6,7 +6,7 @@ using UnityEngine;
 using ItemAPI;
 using System.Collections.Generic;
 
-namespace FrostAndGunfireItems
+namespace BasicGun
 {
    
     public class ModTest : ETGModule
