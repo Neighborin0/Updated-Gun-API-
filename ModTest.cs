@@ -21,16 +21,10 @@ namespace BasicGun
       
         public override void Start()
         {
-            FakePrefabHooks.Init();
             BasicGun.Add();
             Tools.Init();
             ETGModConsole.Log("shit", false);
-           
-
-
-
-
-
+       
 
         }
 
