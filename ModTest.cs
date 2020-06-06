@@ -22,7 +22,6 @@ namespace BasicGun
         public override void Start()
         {
             BasicGun.Add();
-            Tools.Init();
             ETGModConsole.Log("shit", false);
        
 
