@@ -84,7 +84,7 @@ namespace BasicGun
 				{
 					this.gun.PreventNormalFireAudio = true;
 				}
-				if (!gun.IsReloading && !HasReloaded;)
+				if (!gun.IsReloading && !HasReloaded)
 				{
 					this.HasReloaded = true;
 				}
