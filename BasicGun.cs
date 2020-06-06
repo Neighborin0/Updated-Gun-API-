@@ -80,7 +80,7 @@ namespace BasicGun
 			if (gun.CurrentOwner)
 			{
 			
-				if (gun.PreventNormalFireAudio)
+				if (!gun.PreventNormalFireAudio)
 				{
 					this.gun.PreventNormalFireAudio = true;
 				}
