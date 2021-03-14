@@ -3,6 +3,7 @@ using System.Collections;
 using Gungeon;
 using MonoMod;
 using UnityEngine;
+using ItemAPI;
 
 namespace BasicGun
 {
@@ -101,7 +102,7 @@ namespace BasicGun
 				AkSoundEngine.PostEvent("Play_WPN_SAA_reload_01", base.gameObject);
 			}
 		}
-
+        //Now add the Tools class to your project.
         //All that's left now is sprite stuff. 
         //Your sprites should be organized, like how you see in the mod folder. 
         //Every gun requires that you have a .json to match the sprites or else the gun won't spawn at all
