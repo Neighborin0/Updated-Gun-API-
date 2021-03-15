@@ -54,11 +54,9 @@ namespace BasicGun
 			gun.DefaultModule.projectiles[0] = projectile;
              //projectile.baseData allows you to modify the base properties of your projectile module.
             //In our case, our gun uses modified projectiles from the ak-47.
-            //Setting static values for a custom gun's projectile stats prevents them from scaling with player stats and bullet modifiers (damage, shotspeed, knockback)
-            //You have to multiply the value of the original projectile you're using instead so they scale accordingly. For example if the projectile you're using as a base has 10 damage and you want it to be 6 you use this
-            //In our case, our projectile has a base damage of 5.5, so we multiply it by 1.1 so it does 10% more damage from the ak-47.
-            projectile.baseData.damage *= 1.10f;
-            projectile.baseData.speed *= 1f;
+            //You can modify a good number of stats but for now, let's just modify the damage and speed.
+            projectile.baseData.damage = 5f;
+            projectile.baseData.speed = 1.7f;
 			projectile.transform.parent = gun.barrelOffset;
             //This determines what sprite you want your projectile to use. Note this isn't necessary if you don't want to have a custom projectile sprite.
             //The x and y values determine the size of your custom projectile
